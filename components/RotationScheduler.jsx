@@ -1,15 +1,8 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw } from "lucide-react";
-
-// Simple Alert Component
-const SimpleAlert = ({ title, children }) => (
-  <div className="border rounded-lg p-4 bg-blue-50">
-    <h5 className="font-medium mb-1">{title}</h5>
-    <div className="text-sm">{children}</div>
-  </div>
-);
+import { Play, Pause, RotateCcw, ArrowRightLeft } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const calculatePlayerMinutes = (schedule) => {
   const playerMinutes = {};
@@ -50,6 +43,8 @@ const RotationScheduler = () => {
       timer = setInterval(() => {
         setTimeRemaining(prev => {
           if (prev <= 1) {
+            const audio = new Audio('/notification.mp3');
+            audio.play().catch(() => {});
             return 0;
           }
           return prev - 1;
@@ -252,9 +247,12 @@ const RotationScheduler = () => {
 
       {schedule && (
         <div className="space-y-4">
-          <SimpleAlert title="Playing Time">
-            Each player will get approximately {schedule.minutesPerPlayer} minutes of game time
-          </SimpleAlert>
+          <Alert>
+            <AlertTitle>Playing Time</AlertTitle>
+            <AlertDescription>
+              Each player will get approximately {schedule.minutesPerPlayer} minutes of game time
+            </AlertDescription>
+          </Alert>
 
           <div className="border rounded p-4 bg-gray-50">
             <div className="flex justify-between items-center mb-4">
@@ -377,15 +375,7 @@ const RotationScheduler = () => {
                             <div className="font-medium text-red-600">
                               {sub.out} {starters.includes(sub.out) && '⭐'}
                             </div>
-                            <svg 
-                              className="h-4 w-4" 
-                              viewBox="0 0 24 24" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              strokeWidth="2"
-                            >
-                              <path d="M8 8l8 8M16 8l-8 8"/>
-                            </svg>
+                            <ArrowRightLeft className="h-4 w-4" />
                             <div className="font-medium text-green-600">
                               {sub.in} {starters.includes(sub.in) && '⭐'}
                             </div>
