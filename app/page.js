@@ -1,5 +1,11 @@
+"use client"
+
 import RotationScheduler from '../components/RotationScheduler'
 
 export default function Home() {
-  return <RotationScheduler />
+  return (
+    <main>
+      <RotationScheduler />
+    </main>
+  )
 }
